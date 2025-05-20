@@ -307,6 +307,106 @@
     @media (max-width: 600px) {
       footer { font-size: 0.96rem; padding: 13px 0 7px 0;}
     }
+
+    /* Styles pour les publications */
+    .publication-form {
+      margin-bottom: 20px;
+    }
+    .publication-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .publication-form textarea,
+    .publication-form input[type="file"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .publication-form button {
+      background-color: #009efd;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .publication {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    .publication-content {
+      margin-bottom: 10px;
+    }
+    .publication-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .publication-actions button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .publication-views {
+      font-size: 0.8em;
+      color: #777;
+    }
+
+    /* Styles pour la caisse */
+    .caisse-form {
+      margin-bottom: 20px;
+    }
+    .caisse-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    .caisse-form input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .caisse-form button {
+      background-color: #2af598;
+      color: #232d3f;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .caisse-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .caisse-table th,
+    .caisse-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    .caisse-table th {
+      background-color: #f2f2f2;
+    }
+    .publication-form input{
+      display: none;
+    }
+    .publication-form .ajouter-image{
+      background-color:#2af598;
+      text-align: center;
+      padding: 10px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
@@ -321,6 +421,7 @@
       <a href="#apropos" class="nav-link" data-link="apropos">À propos</a>
       <a href="#contact" class="nav-link" data-link="contact">Contact</a>
       <a href="#profil" class="nav-link" data-link="profil">Profil</a>
+      <a href="#caisse" class="nav-link" data-link="caisse">Caisse</a> <!-- Nouveau lien -->
     </div>
   </nav>
 
@@ -342,6 +443,20 @@
         <img class="home-img" src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Jeunes informaticiens">
       </div>
       <a class="inscription-btn" href="#inscription">Inscription</a>
+      <br><br><br>
+      <!-- Formulaire de publication -->
+      <div class="publication-form">
+        <label for="publicationText">Votre publication :</label>
+        <textarea id="publicationText" rows="3"></textarea>
+        <label for="publicationImage" class="ajouter-image">Ajouter une image ou vidéo :</label>
+        <input type="file" id="publicationImage" accept="image/*, video/*">
+        <button onclick="publier()">Publier</button>
+      </div>
+
+      <!-- Liste des publications -->
+      <div id="publications">
+        <!-- Les publications seront ajoutées ici par le script -->
+      </div>
     </section>
 
     <!-- À propos -->
@@ -349,7 +464,7 @@
       <div class="propos-title">À propos de GOOD-TECH</div>
       <div class="about-content">
         <p>
-          GOOD-TECH est une initiative créée pour encourager et soutenir l’apprentissage des jeunes passionnés d'informatique.<br>
+          GOOD-TECH est une initiative créée pour encourager et soutenir l’apprentissage des jeunes passionnés d'informatique.'<br>
           Nous croyons que chaque jeune mérite l’opportunité d’accéder à des outils modernes et à un encadrement adapté.<br>
           Nos activités couvrent la programmation, le développement web, les bases de données, la cybersécurité et bien d’autres domaines.<br>
           Notre plateforme propose des tutoriels interactifs, des ateliers pratiques, des événements collaboratifs et un accompagnement personnalisé.<br>
@@ -392,6 +507,30 @@
         <button class="profile-download-btn" id="downloadBtn" type="button">Télécharger la photo GOOD-TECH</button>
         <div class="profile-info">Téléchargez votre photo de profil personnalisée avec le texte <b>GOOD-TECH</b>.</div>
       </div>
+    </section>
+
+    <!-- Caisse -->
+    <section id="caisse">
+      <div class="propos-title">Caisse</div>
+      <form class="caisse-form" id="caisseForm">
+        <label for="nomDepot">Nom :</label>
+        <input type="text" id="nomDepot" required>
+        <label for="montantDepot">Montant du dépôt :</label>
+        <input type="number" id="montantDepot" required>
+        <button type="submit">Enregistrer le dépôt</button>
+      </form>
+      <table class="caisse-table" id="caisseTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Nom</th>
+            <th>Montant</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Les dépôts seront ajoutés ici par le script -->
+        </tbody>
+      </table>
     </section>
 
     <!-- Page inscription démo -->
@@ -542,6 +681,122 @@
     if(pic) profilePhoto.src = pic;
   } catch{}
 
+  // --- Gestion des publications ---
+  const publicationsDiv = document.getElementById('publications');
+  const publicationText = document.getElementById('publicationText');
+  const publicationImage = document.getElementById('publicationImage');
+  let publications = JSON.parse(localStorage.getItem('publications') || '[]');
+
+  function afficherPublications() {
+    publicationsDiv.innerHTML = '';
+    publications.forEach((publication, index) => {
+      const publicationDiv = document.createElement('div');
+      publicationDiv.classList.add('publication');
+
+      let content = `<div class="publication-content">${publication.text}</div>`;
+      if (publication.image) {
+        const isImage = publication.image.startsWith('data:image');
+        content += isImage ? `<img src="${publication.image}" style="max-width:100%;"/>` : `<video src="${publication.image}" style="max-width:100%;" controls></video>`;
+      }
+
+      publicationDiv.innerHTML = content + `
+        <div class="publication-actions">
+          <span class="publication-views">Vues: ${publication.views || 0}</span>
+          <div>
+            <button onclick="modifierPublication(${index})">Modifier</button>
+            <button onclick="supprimerPublication(${index})">Supprimer</button>
+            <button onclick="partagerPublication(${index})">Partager</button>
+          </div>
+        </div>
+      `;
+      publicationsDiv.appendChild(publicationDiv);
+    });
+  }
+
+  function publier() {
+    const text = publicationText.value.trim();
+    const imageFile = publicationImage.files[0];
+
+    if (!text && !imageFile) {
+      alert('Veuillez écrire quelque chose ou ajouter une image/vidéo.');
+      return;
+    }
+
+    let imageUrl = null;
+    if (imageFile) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        imageUrl = reader.result;
+        ajouterPublication(text, imageUrl);
+      };
+      reader.readAsDataURL(imageFile);
+    } else {
+      ajouterPublication(text, null);
+    }
+  }
+
+  function ajouterPublication(text, imageUrl) {
+    const nouvellePublication = {
+      text: text,
+      image: imageUrl,
+      views: 0
+    };
+    publications.push(nouvellePublication);
+    localStorage.setItem('publications', JSON.stringify(publications));
+    publicationText.value = '';
+    publicationImage.value = '';
+    afficherPublications();
+  }
+
+  function modifierPublication(index) {
+    // Implémentez la logique de modification ici
+    alert('Modifier publication ' + index);
+  }
+
+  function supprimerPublication(index) {
+    publications.splice(index, 1);
+    localStorage.setItem('publications', JSON.stringify(publications));
+    afficherPublications();
+  }
+
+  function partagerPublication(index) {
+    // Implémentez la logique de partage ici
+    alert('Partager publication ' + index);
+  }
+
+  // --- Gestion de la caisse ---
+  const caisseForm = document.getElementById('caisseForm');
+  const caisseTableBody = document.getElementById('caisseTable').querySelector('tbody');
+  let caisseData = JSON.parse(localStorage.getItem('caisseData') || '[]');
+
+  function afficherCaisse() {
+    caisseTableBody.innerHTML = '';
+    caisseData.forEach(depot => {
+      const row = caisseTableBody.insertRow();
+      row.insertCell().textContent = depot.date;
+      row.insertCell().textContent = depot.nom;
+      row.insertCell().textContent = depot.montant;
+    });
+  }
+
+  caisseForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nom = document.getElementById('nomDepot').value;
+    const montant = document.getElementById('montantDepot').value;
+    const date = new Date().toLocaleDateString();
+
+    caisseData.push({ date: date, nom: nom, montant: montant });
+    localStorage.setItem('caisseData', JSON.stringify(caisseData));
+
+    document.getElementById('nomDepot').value = '';
+    document.getElementById('montantDepot').value = '';
+
+    afficherCaisse();
+  });
+
+  // Initialisation
+  afficherPublications();
+  afficherCaisse();
 </script>
 </body>
 </html>
